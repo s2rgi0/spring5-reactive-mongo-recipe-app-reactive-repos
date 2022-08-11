@@ -4,6 +4,8 @@ import guru.springframework.domain.*;
 import guru.springframework.repositories.CategoryRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
+import guru.springframework.repositories.reactive.CategoryReactiveRepository;
+import guru.springframework.repositories.reactive.RecipeReactiveRepository;
 import guru.springframework.repositories.reactive.UnitOfMeasureReactiveRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,12 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     @Autowired
     UnitOfMeasureReactiveRepository reactiveRepository;
 
+    @Autowired
+    CategoryReactiveRepository categoryReactiveRepository;
+
+    @Autowired
+    RecipeReactiveRepository recipeReactiveRepository;
+
     public RecipeBootstrap(CategoryRepository categoryRepository,
                            RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
         this.categoryRepository = categoryRepository;
@@ -50,6 +58,9 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
         log.error("#######");
         log.error("Count: " + reactiveRepository.count().block().toString());
+
+        log.error("Category Reactive :: "+categoryReactiveRepository.count().block().toString());
+        log.error("Reactive Recipe :: "+recipeReactiveRepository.count().block().toString());
     }
 
     private void loadCategories(){
